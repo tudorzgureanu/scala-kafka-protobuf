@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.tudorzgureanu.protocol.users;
+
+message UsersEnvelope {
+    string correlation_id = 1;
+    // some other metadata
+    oneof payload {
+        UserCreated user_created = 11;
+        UserUpdated user_updated = 12;
+        UserDeactivated user_deactivated = 13;
+    }
+}
+
+message UserCreated {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+}
+
+message UserUpdated {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+}
+
+message UserDeactivated {
+    string user_id = 1;
+}
