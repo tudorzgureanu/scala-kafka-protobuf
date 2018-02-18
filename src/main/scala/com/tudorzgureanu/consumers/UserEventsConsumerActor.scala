@@ -52,7 +52,7 @@ class UserEventsConsumerActor(
         log.info(s"[correlationId: ${value.correlationId}] User deactivated $userDeactivated")
         userService.persistUserEvent(UserDeactivated(userDeactivated.userId)).map(Right(_))
       case Payload.Empty =>
-        log.info(s"[correlationId: ${value.correlationId}] Unexpected payload with key: $key. Payload ignored.")
+        log.info(s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored.")
         Future.successful(Left("Couldn't not process payload"))
     }
   }
