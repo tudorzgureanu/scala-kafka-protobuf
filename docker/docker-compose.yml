@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:4.0.0
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 32181 || echo 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "32181:32181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=32181
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:4.0.0
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 32181 || echo 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      - zookeeper
+    restart: always
+    ports:
+      - "29092:29092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_DELETE_TOPIC_ENABLE=true
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
