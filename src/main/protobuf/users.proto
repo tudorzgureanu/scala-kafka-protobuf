@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.tudorzgureanu.protocol.users;
+package com.tudorzgureanu.protocol.users.v1;
 
 /*
  Message that is sent to the users topic (i.e. "users" topic API).

@@ -1,25 +1,33 @@
-package com.tudorzgureanu.consumers
+package com.tudorzgureanu.actors.consumers
 
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, Props, Terminated}
 import cakesolutions.kafka.KafkaConsumer
 import cakesolutions.kafka.akka.{ConsumerRecords, KafkaConsumerActor}
 import cakesolutions.kafka.akka.KafkaConsumerActor.Confirm
+import com.tudorzgureanu.actors.RestartableActor
+import com.tudorzgureanu.actors.RestartableActor.RestartActor
 import com.tudorzgureanu.domain._
-import com.tudorzgureanu.protocol.users.UsersEnvelope
-import com.tudorzgureanu.protocol.users.UsersEnvelope.Payload
+import com.tudorzgureanu.protocol.users.v1.UsersEnvelope
+import com.tudorzgureanu.protocol.users.v1.UsersEnvelope.Payload
 import com.tudorzgureanu.services.UserService
 
 import scala.concurrent.Future
 
-object UserEventsConsumerActor {
-  def props(): Props = ???
+object UserConsumerActor {
+
+  def props(
+    kafkaConsumerConf: KafkaConsumer.Conf[String, UsersEnvelope],
+    kafkaConsumerActorConf: KafkaConsumerActor.Conf,
+    userService: UserService
+  ): Props = Props(new UserConsumerActor(kafkaConsumerConf, kafkaConsumerActorConf, userService))
 }
 
-class UserEventsConsumerActor(
+class UserConsumerActor(
   kafkaConsumerConf: KafkaConsumer.Conf[String, UsersEnvelope],
   kafkaConsumerActorConf: KafkaConsumerActor.Conf,
   userService: UserService
 ) extends Actor
+    with RestartableActor
     with ActorLogging {
 
   import context.dispatcher
@@ -27,13 +35,21 @@ class UserEventsConsumerActor(
   private val UserEventsExtractor = ConsumerRecords.extractor[String, UsersEnvelope]
 
   // provide a consumer factory as dependency for testability
-  val kafkaConsumer = context.actorOf(KafkaConsumerActor.props(kafkaConsumerConf, kafkaConsumerActorConf, self))
+  val kafkaConsumerActor = context.actorOf(KafkaConsumerActor.props(kafkaConsumerConf, kafkaConsumerActorConf, self))
+  context.watch(kafkaConsumerActor)
 
   override def receive: Receive = {
     case UserEventsExtractor(records) =>
       Future.traverse(records.recordsList)(record => processUserEvent(Option(record.key()), record.value())).map { _ =>
-        kafkaConsumer ! Confirm(offsets = records.offsets, commit = true)
+        kafkaConsumerActor ! Confirm(offsets = records.offsets, commit = true)
+      }.recover {
+        case ex =>
+          log.error(ex, "Failed to process records")
+          self ! RestartActor(ex)
       }
+
+    case Terminated(_) =>
+      self ! RestartActor(new Exception("Kafka Consumer actor terminated. Restarting UserConsumerActor"))
   }
 
   private def processUserEvent(key: Option[String], value: UsersEnvelope): Future[Either[String, UserEvent]] = {
@@ -52,7 +68,9 @@ class UserEventsConsumerActor(
         log.info(s"[correlationId: ${value.correlationId}] User deactivated $userDeactivated")
         userService.persistUserEvent(UserDeactivated(userDeactivated.userId)).map(Right(_))
       case Payload.Empty =>
-        log.info(s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored.")
+        log.info(
+          s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored."
+        )
         Future.successful(Left("Couldn't not process payload"))
     }
   }

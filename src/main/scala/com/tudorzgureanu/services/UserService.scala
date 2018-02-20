@@ -9,5 +9,7 @@ trait UserService {
 }
 
 class UserServiceMock extends UserService {
-  override def persistUserEvent(userEvent: UserEvent)(implicit ec: ExecutionContext): Future[UserEvent] = ???
+  override def persistUserEvent(userEvent: UserEvent)(implicit ec: ExecutionContext): Future[UserEvent] = {
+    Future.successful(userEvent)
+  }
 }
