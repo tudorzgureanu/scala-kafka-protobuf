@@ -7,10 +7,11 @@ lazy val root = (project in file(".")).
       scalaVersion := "2.12.4",
       version := "0.1.0-SNAPSHOT"
     )),
-    name := "Hello",
+    name := "Scala Kafka Protobuf POC",
     resolvers += Resolver.bintrayRepo("cakesolutions", "maven"),
     libraryDependencies ++= Seq(
       Akka.core,
+      Akka.slf4j,
       Kafka.scalaKafkaClientAkka,
       Testing.scalaTest
     ),

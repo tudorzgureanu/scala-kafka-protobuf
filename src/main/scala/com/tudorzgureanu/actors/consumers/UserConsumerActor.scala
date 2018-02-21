@@ -44,12 +44,12 @@ class UserConsumerActor(
         kafkaConsumerActor ! Confirm(offsets = records.offsets, commit = true)
       }.recover {
         case ex =>
-          log.error(ex, "Failed to process records")
+          log.error(ex, "Failed to process records.")
           self ! RestartActor(ex)
       }
 
     case Terminated(_) =>
-      self ! RestartActor(new Exception("Kafka Consumer actor terminated. Restarting UserConsumerActor"))
+      self ! RestartActor(new Exception("Kafka Consumer actor terminated. Restarting UserConsumerActor."))
   }
 
   private def processUserEvent(key: Option[String], value: UsersEnvelope): Future[Either[String, UserEvent]] = {
@@ -71,7 +71,7 @@ class UserConsumerActor(
         log.info(
           s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored."
         )
-        Future.successful(Left("Couldn't not process payload"))
+        Future.successful(Left("Couldn't not process payload."))
     }
   }
 

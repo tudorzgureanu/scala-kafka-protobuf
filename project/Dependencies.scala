@@ -1,10 +1,13 @@
-import sbt._
+import sbt.{ModuleID, _}
 
 object Dependencies {
 
   object Akka {
-    lazy val core = "com.typesafe.akka" %% "akka-actor" % "2.5.9"
-    lazy val testKit = "com.typesafe.akka" %% "akka-testkit" % "2.5.9" % Test
+    val version = "2.5.9"
+    lazy val core = "com.typesafe.akka" %% "akka-actor" % version
+    lazy val slf4j = "com.typesafe.akka" %% "akka-slf4j" % version
+
+    lazy val testKit = "com.typesafe.akka" %% "akka-testkit" % version % Test
   }
 
   object Kafka {
