@@ -1,11 +1,11 @@
-package com.tudorzgureanu.actors.consumers
+package com.tudorzgureanu.kafka.consumers
 
 import akka.actor.{Actor, ActorLogging, Props, Terminated}
 import cakesolutions.kafka.KafkaConsumer
 import cakesolutions.kafka.akka.{ConsumerRecords, KafkaConsumerActor}
 import cakesolutions.kafka.akka.KafkaConsumerActor.Confirm
-import com.tudorzgureanu.actors.RestartableActor
-import com.tudorzgureanu.actors.RestartableActor.RestartActor
+import com.tudorzgureanu.kafka.RestartableActor
+import com.tudorzgureanu.kafka.RestartableActor.RestartActor
 import com.tudorzgureanu.domain._
 import com.tudorzgureanu.protocol.users.v1.UsersEnvelope
 import com.tudorzgureanu.protocol.users.v1.UsersEnvelope.Payload

@@ -1,7 +1,7 @@
-package com.tudorzgureanu.actors
+package com.tudorzgureanu.kafka
 
 import akka.actor.Actor
-import com.tudorzgureanu.actors.RestartableActor.{RestartActor, RestartActorException}
+import com.tudorzgureanu.kafka.RestartableActor.{RestartActor, RestartActorException}
 
 trait RestartableActor extends Actor {
   abstract override def receive = super.receive orElse {
