@@ -38,7 +38,7 @@ class UserConsumerActor(
   val kafkaConsumerActor = context.actorOf(KafkaConsumerActor.props(kafkaConsumerConf, kafkaConsumerActorConf, self))
   context.watch(kafkaConsumerActor)
 
-  override def receive: Receive = {
+  override def receive: Receive = super.receive orElse {
     case UserEventsExtractor(records) =>
       Future
         .traverse(records.recordsList)(record => processUserEvent(Option(record.key()), record.value()))

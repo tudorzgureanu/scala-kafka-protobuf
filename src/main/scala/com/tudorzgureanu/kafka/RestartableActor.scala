@@ -4,7 +4,7 @@ import akka.actor.Actor
 import com.tudorzgureanu.kafka.RestartableActor.{RestartActor, RestartActorException}
 
 trait RestartableActor extends Actor {
-  abstract override def receive = super.receive orElse {
+  override def receive: Receive = {
     case RestartActor(ex) =>
       throw RestartActorException(ex)
   }
