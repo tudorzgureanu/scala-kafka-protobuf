@@ -3,7 +3,7 @@ package com.tudorzgureanu.kafka.consumers
 import akka.actor.{Actor, ActorLogging, Props, Terminated}
 import cakesolutions.kafka.KafkaConsumer
 import cakesolutions.kafka.akka.{ConsumerRecords, KafkaConsumerActor}
-import cakesolutions.kafka.akka.KafkaConsumerActor.Confirm
+import cakesolutions.kafka.akka.KafkaConsumerActor.{Confirm, Subscribe}
 import com.tudorzgureanu.kafka.RestartableActor
 import com.tudorzgureanu.kafka.RestartableActor.RestartActor
 import com.tudorzgureanu.domain._
@@ -37,6 +37,7 @@ class UserConsumerActor(
   // provide a consumer factory as dependency for testability
   val kafkaConsumerActor = context.actorOf(KafkaConsumerActor.props(kafkaConsumerConf, kafkaConsumerActorConf, self))
   context.watch(kafkaConsumerActor)
+  kafkaConsumerActor ! Subscribe.AutoPartition(Seq("users"))
 
   override def receive: Receive = super.receive orElse {
     case UserEventsExtractor(records) =>
@@ -78,4 +79,18 @@ class UserConsumerActor(
     }
   }
 
+  override def preStart(): Unit = {
+    log.info("{}: {} is starting", getClass.getSimpleName, self)
+    super.preStart()
+  }
+
+  override def postStop(): Unit = {
+    log.info("{}: {} is stopping", getClass.getSimpleName, self)
+    super.postStop()
+  }
+
+  override def unhandled(msg: Any): Unit = {
+    log.info("{}: {} got unhandled message `{}`", getClass.getSimpleName, self, msg)
+    super.unhandled(msg)
+  }
 }
