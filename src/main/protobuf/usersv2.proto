@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.tudorzgureanu.protocol.users.v1;
+package com.tudorzgureanu.protocol.users.v2;
 
 /*
  Message that is sent to the users topic (i.e. "users" topic API).
@@ -14,6 +14,7 @@ message UsersEnvelope {
         UserCreated user_created = 11;
         UserUpdated user_updated = 12;
         UserActivated user_activated = 13;
+        UserDeactivated user_deactivated = 14;
     }
 }
 
@@ -26,9 +27,13 @@ message UserCreated {
 message UserUpdated {
     string id = 1;
     string first_name = 2;
-    string last_name = 3;
+    int64 some_wrong_field = 3; // note: same index is used as last_name in v1
 }
 
 message UserActivated {
+    string user_id = 1;
+}
+
+message UserDeactivated {
     string user_id = 1;
 }
