@@ -33,3 +33,5 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+#      Uncomment to not auto create topics
+#      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=false
