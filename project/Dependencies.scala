@@ -14,6 +14,10 @@ object Dependencies {
     lazy val scalaKafkaClientAkka = "net.cakesolutions" %% "scala-kafka-client-akka" % "1.0.0"
   }
 
+  object Logging {
+    lazy val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.2.3"
+  }
+
   object Testing {
     lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
   }
