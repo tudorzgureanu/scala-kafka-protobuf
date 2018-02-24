@@ -61,16 +61,16 @@ class UserConsumerActor(
       case Payload.UserCreated(userCreatedProto) =>
         log.info(s"[correlationId: ${value.correlationId}] User created $userCreatedProto")
         userService
-          .persistUserEvent(UserCreated.fromProto(userCreatedProto))
+          .persistUserEvent(UserCreated.fromProtoV1(userCreatedProto))
           .map(Right(_))
       case Payload.UserUpdated(userUpdatedProto) =>
         log.info(s"[correlationId: ${value.correlationId}] User updated $userUpdatedProto")
         userService
-          .persistUserEvent(UserUpdated.fromProto(userUpdatedProto))
+          .persistUserEvent(UserUpdated.fromProtoV1(userUpdatedProto))
           .map(Right(_))
-      case Payload.UserDeactivated(userDeactivatedProto) =>
-        log.info(s"[correlationId: ${value.correlationId}] User deactivated $userDeactivatedProto")
-        userService.persistUserEvent(UserDeactivated.fromProto(userDeactivatedProto)).map(Right(_))
+      case Payload.UserActivated(userActivatedProto) =>
+        log.info(s"[correlationId: ${value.correlationId}] User activated $userActivatedProto")
+        userService.persistUserEvent(UserActivated.fromProtoV1(userActivatedProto)).map(Right(_))
       case Payload.Empty =>
         log.info(
           s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored."
