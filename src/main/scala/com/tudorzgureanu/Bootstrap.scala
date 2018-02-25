@@ -12,7 +12,6 @@ import org.apache.kafka.clients.consumer.OffsetResetStrategy
 import org.apache.kafka.common.requests.IsolationLevel
 import org.apache.kafka.common.serialization.StringDeserializer
 
-
 object Bootstrap {
 
   def apply( /*config: Config, */ ): Bootstrap =
