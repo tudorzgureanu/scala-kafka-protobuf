@@ -38,10 +38,27 @@ Each protobuf compiler will generate these classes in its own way along with an 
 - [ScalaPB](https://github.com/scalapb/ScalaPB) for generating Scala classes for the protobuf messages. Using proto3 syntax.
 - [Apache Kafka 1.0](https://github.com/apache/kafka) through [Confluent Platform 4.0.0](https://docs.confluent.io/current/platform.html)
 - [Docker](https://www.docker.com/) for running Kafka and [Zookeeper](https://zookeeper.apache.org/)
+- [sbt 1.0.3](https://www.scala-sbt.org/)
 
 # Running 
 
+This already assumes you have clonned this repository and installed sbt and docker.
 
+* First, we need to start Kafka. This repository has a [docker-compose file](https://github.com/tudorzgureanu/scala-kafka-protobuf/blob/master/docker/docker-compose.yml) provided. All we need to do is to run:
+```
+docker-compose -f docker/docker-compose.yml up -d 
+```
+* To start our app:
+
+```
+sbt "runMain com.tudorzgureanu.Main"  
+```
+
+* Now we are ready to send some messages to kafka. For that we would use our [KafkaMessageSender](https://github.com/tudorzgureanu/scala-kafka-protobuf/blob/master/src/main/scala/com/tudorzgureanu/KafkaMessageSender.scala) utility class. Feel free to change this class locally to send any messages you prefer. Finally, simply run:
+
+```
+sbt "runMain com.tudorzgureanu.KafkaMessageSender"
+```
 
 # Conclusion
 
