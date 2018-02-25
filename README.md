@@ -28,7 +28,7 @@ message UsersEnvelope {
 
 // the rest of the messages ..
 ```
-Each protobuf compiler will generate these classes in its own way along with an enum or some class hierarchy for the `oneof` cases (depending on the language). Usually it will also generate a special Empty case (in Scala, Java and C# at least, the name varies per language) to handle invalid or missing messages.
+Each protobuf compiler will generate these classes in its own way along with an enum or some class hierarchy for the `oneof` cases (depending on the language). Usually it will also generate a special Empty case (in Scala, Java and C# at least, the name varies per language) to handle invalid or missing messages (cases).
 
 # Tech stack
 
