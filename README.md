@@ -5,6 +5,31 @@ A PoC using Scala that defines single-message protobuf API per Kafka topic
 
 The goal for this PoC is to evaluate the usage of a single envelope protobuf definition per kafka topic. The main reason behind that is having a clear "topic API" and clear expectations for consumers of these messages. 
 
+# Description
+
+The idea is to have an envelope per topic defined in protobuf. We can add any header fields we need (e.g. correlation id) but the payload must use protobuf's `oneof` to list all the message types are sent on that topic.
+
+## Example
+
+In the [`users.proto`](https://github.com/tudorzgureanu/scala-kafka-protobuf/blob/master/src/main/protobuf/users.proto) file we have got a basic protobuf definitions for the `users` topic:
+
+```
+// protobuf file headers ..
+
+message UsersEnvelope {
+    string correlation_id = 1;
+    // some other metadata
+    oneof payload {
+        UserCreated user_created = 11;
+        UserUpdated user_updated = 12;
+        UserActivated user_activated = 13;
+    }
+}
+
+// the rest of the messages ..
+```
+Each protobuf compiler will generate these classes in its own way along with an enum or some class hierarchy for the `oneof` cases (depending on the language). Usually it will also generate a special Empty case (in Scala, Java and C# at least, the name varies per language) to handle invalid or missing messages.
+
 # Tech stack
 
 - [Scala 2.12.4](https://github.com/scala/scala)
@@ -16,7 +41,7 @@ The goal for this PoC is to evaluate the usage of a single envelope protobuf def
 
 # Running 
 
-# Example
+
 
 # Conclusion
 
