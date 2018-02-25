@@ -14,6 +14,7 @@ lazy val root = (project in file(".")).
       Akka.slf4j,
       Kafka.scalaKafkaClientAkka,
       Logging.logbackClassic,
+      ScalaPB.runtime,
       Testing.scalaTest
     ),
     managedSourceDirectories in Compile += target.value / "proto-generated",

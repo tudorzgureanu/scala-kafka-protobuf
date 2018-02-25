@@ -18,6 +18,11 @@ object Dependencies {
     lazy val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.2.3"
   }
 
+  object ScalaPB {
+    // (optional) If you need scalapb/scalapb.proto or anything from google/protobuf/*.proto
+    val runtime: ModuleID = "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+  }
+
   object Testing {
     lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
   }
