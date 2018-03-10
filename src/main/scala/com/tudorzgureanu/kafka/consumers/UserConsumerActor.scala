@@ -56,24 +56,24 @@ class UserConsumerActor(
       self ! RestartActor(new Exception("Kafka Consumer actor terminated. Restarting UserConsumerActor."))
   }
 
-  private def processUserEvent(key: Option[String], value: UsersEnvelope): Future[Either[String, UserEvent]] = {
-    value.payload match {
+  private def processUserEvent(key: Option[String], envelope: UsersEnvelope): Future[Either[String, UserEvent]] = {
+    envelope.payload match {
       case Payload.UserCreated(userCreatedProto) =>
-        log.info(s"[correlationId: ${value.correlationId}] User created $userCreatedProto")
+        log.info(s"[correlationId: ${envelope.correlationId}] User created $userCreatedProto")
         userService
           .persistUserEvent(UserCreated.fromProtoV1(userCreatedProto))
           .map(Right(_))
       case Payload.UserUpdated(userUpdatedProto) =>
-        log.info(s"[correlationId: ${value.correlationId}] User updated $userUpdatedProto")
+        log.info(s"[correlationId: ${envelope.correlationId}] User updated $userUpdatedProto")
         userService
           .persistUserEvent(UserUpdated.fromProtoV1(userUpdatedProto))
           .map(Right(_))
       case Payload.UserActivated(userActivatedProto) =>
-        log.info(s"[correlationId: ${value.correlationId}] User activated $userActivatedProto")
+        log.info(s"[correlationId: ${envelope.correlationId}] User activated $userActivatedProto")
         userService.persistUserEvent(UserActivated.fromProtoV1(userActivatedProto)).map(Right(_))
       case Payload.Empty =>
         log.info(
-          s"[correlationId: ${value.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored."
+          s"[correlationId: ${envelope.correlationId}] Unexpected payload with key: ${key.getOrElse("null")}. Payload ignored."
         )
         Future.successful(Left("Couldn't not process payload."))
     }
