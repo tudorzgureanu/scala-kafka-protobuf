@@ -1,10 +1,9 @@
 # scala-kafka-protobuf
-A PoC using Scala that defines single-message protobuf API per Kafka topic
+A PoC that defines single-message topic schemas for Apache Kafka using Protocol Buffers (Protobuf) and Scala.
 
+The goal for this PoC is to evaluate the usage of a single envelope protobuf definition per kafka topic. The main reason behind that is having a clear topic schema and clear expectations for consumers of these messages. 
 
-The goal for this PoC is to evaluate the usage of a single envelope protobuf definition per kafka topic. The main reason behind that is having a clear "topic API" and clear expectations for consumers of these messages. 
-
-I've written a blog post based on this PoC which can be found [here](http://tudorzgureanu.com/define-topic-schema-for-kafka-using-protobuf-with-examples-in-scala/)
+I've written a blog post based on this PoC which explains this concept in a bit more details. The blog post can be found [here](http://tudorzgureanu.com/define-topic-schema-for-kafka-using-protobuf-with-examples-in-scala/)
 
 # Description
 
