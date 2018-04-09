@@ -5,6 +5,8 @@ The goal for this PoC is to evaluate the usage of a single envelope protobuf def
 
 I've written a blog post based on this PoC which explains this concept in a bit more details. The blog post can be found [here](http://tudorzgureanu.com/define-topic-schema-for-kafka-using-protobuf-with-examples-in-scala/)
 
+P.S. Feel also free to use this PoC as a quick start project using Scala, Kafka and Protobuf.
+
 # Description
 
 The idea is to have an envelope per topic defined in protobuf. We can add any header fields we need (e.g. correlation id) but the payload must use protobuf's `oneof` to list all the message types are sent on that topic.
