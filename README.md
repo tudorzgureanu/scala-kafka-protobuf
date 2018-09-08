@@ -36,9 +36,9 @@ Each protobuf compiler will generate these classes in its own way along with an 
 
 - [Scala 2.12.4](https://github.com/scala/scala)
 - [Akka 2.5.9](https://github.com/akka/akka)
-- [Scala Kafka Client 1.0.0](https://github.com/cakesolutions/scala-kafka-client)
+- [Scala Kafka Client 2.0.0](https://github.com/cakesolutions/scala-kafka-client)
 - [ScalaPB](https://github.com/scalapb/ScalaPB) for generating Scala classes for the protobuf messages. Using proto3 syntax.
-- [Apache Kafka 1.0](https://github.com/apache/kafka) through [Confluent Platform 4.0.0](https://docs.confluent.io/current/platform.html)
+- [Apache Kafka 2.0](https://github.com/apache/kafka) through [Confluent Platform 5.0.0](https://docs.confluent.io/current/platform.html)
 - [Docker](https://www.docker.com/) for running Kafka and [Zookeeper](https://zookeeper.apache.org/)
 - [sbt 1.0.3](https://www.scala-sbt.org/)
 

@@ -11,7 +11,7 @@ object Dependencies {
   }
 
   object Kafka {
-    lazy val scalaKafkaClientAkka = "net.cakesolutions" %% "scala-kafka-client-akka" % "1.0.0"
+    lazy val scalaKafkaClientAkka = "net.cakesolutions" %% "scala-kafka-client-akka" % "2.0.0"
   }
 
   object Logging {
