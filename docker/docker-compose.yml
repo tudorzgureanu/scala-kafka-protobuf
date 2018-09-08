@@ -3,7 +3,7 @@ services:
 
   zookeeper:
     container_name: zookeeper
-    image: confluentinc/cp-zookeeper:4.0.0
+    image: confluentinc/cp-zookeeper:5.0.0
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 32181"]
       interval: 5s
@@ -16,7 +16,7 @@ services:
 
   kafka:
     container_name: kafka
-    image: confluentinc/cp-kafka:4.0.0
+    image: confluentinc/cp-kafka:5.0.0
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 29092"]
       interval: 5s
