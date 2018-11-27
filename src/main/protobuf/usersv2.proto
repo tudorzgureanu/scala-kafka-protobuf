@@ -3,7 +3,7 @@ syntax = "proto3";
 package com.tudorzgureanu.protocol.users.v2;
 
 /*
- Message that is sent to the users topic (i.e. "users" topic API).
+ Message that is sent to the users topic (i.e. "users" topic schema).
  All the supported payloads are listed using oneof keyword.
  Can support versioning if not using different topics per version.
 */
